@@ -1,0 +1,11 @@
+,n_features,median_abs_r,mean_abs_r,max_abs_r,top_feature,n_components_95pct,compression_ratio
+meta,9,0.291,0.2159,0.4055,Site_Latitude(Degrees),6.0,1.5
+advanced,819,0.248,0.2388,0.5673,cratio_1_8_9,6.0,136.5
+band_stats,130,0.227,0.2161,0.4914,B02_p10,10.0,13.0
+aod_physics,150,0.1802,0.1814,0.5184,aod_B01_over_B02_var,12.0,12.5
+band_ratios,1560,0.1777,0.1911,0.5627,rdiff_9_12_mean,19.0,82.11
+veg_idx2,368,0.1558,0.1728,0.5484,wbi_p25,27.0,13.63
+bloom,90,0.1455,0.1533,0.3176,PEBI_p90,11.0,8.18
+veg_idx1,300,0.1399,0.1559,0.5086,ccci_p75,31.0,9.68
+rededge,269,0.1205,0.173,0.5588,MTCI3_p75,25.0,10.76
+glcm_b02,5,0.0254,0.1237,0.3066,B02raw_GLCM_contrast,3.0,1.67
