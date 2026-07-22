@@ -1,0 +1,34 @@
+# PyTorch — CUDA 13.2 nightly (stable wheels don't support cu132 yet)
+# Install separately with:
+#   pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/nightly/cu132
+
+# Data
+numpy
+pandas
+scipy
+scikit-learn
+scikit-image
+opencv-python
+rasterio
+tifffile
+
+# ML / Boosting
+catboost
+xgboost
+lightgbm
+optuna
+tabpfn
+
+# Visualisation
+matplotlib
+seaborn
+
+# Utilities
+tqdm
+joblib
+Pillow
+
+# Satellite / AERONET pipeline (already installed)
+sentinelhub
+python-dotenv
+pysolar
