@@ -1,0 +1,33 @@
+# Secrets & environment
+.env
+venv/
+
+# Local editor / agent config & internal project guide
+.vscode/
+.claude/
+CLAUDE.md
+**/CLAUDE.md
+
+# Abandoned duplicate copy of the project (superseded by this repo's layout)
+regional_scale_aod_estimation/
+
+# Papers & review documents
+*.pdf
+
+# Data_Collection: only src/ and README.md are published; raw/intermediate data
+# is too large for GitHub and will be released separately (see Data_Collection/README.md)
+Data_Collection/temp_csv_files/
+Data_Collection/Sentinel2_L1C/
+Data_Collection/Dataset/
+Data_Collection/*.zip
+Data_Collection/download_log.txt
+
+# Large / regenerable ML artifacts (exceed GitHub's 100 MB file limit)
+feature_engineering/features/
+modeling/models/
+modeling/src/catboost_info/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
