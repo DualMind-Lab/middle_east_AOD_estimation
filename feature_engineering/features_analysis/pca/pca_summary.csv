@@ -1,0 +1,4 @@
+variance_threshold,n_components,pct_of_features,compression_ratio
+0.9,13,0.35,284.62
+0.95,29,0.78,127.59
+0.99,150,4.05,24.67
