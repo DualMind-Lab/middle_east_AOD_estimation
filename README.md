@@ -75,3 +75,7 @@ Execution order:
 ## Citation
 
 Paper currently under peer review — citation details to follow upon publication.
+
+## License
+
+Released under the [MIT License](LICENSE).
