@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+message: "If you use this software or the associated dataset, please cite it as below."
+title: "middle_east_AOD_estimation: processing, feature-extraction, modelling, and evaluation code for Sentinel-2 L1C aerosol optical depth estimation over the Middle East"
+version: v1.0.0
+license: MIT
+repository-code: "https://github.com/DualMind-Lab/middle_east_AOD_estimation"
+authors:
+  - family-names: Lazkani
+    given-names: Baraa
+    orcid: "https://orcid.org/0009-0009-2501-4111"
+    affiliation: "Department of Robotics and Intelligent Systems Engineering, Manara University, Latakia, Syria"
+  - family-names: Ibrahim
+    given-names: Modar
+    affiliation: "Department of Robotics and Intelligent Systems Engineering, Manara University, Latakia, Syria"
+keywords:
+  - aerosol optical depth
+  - Sentinel-2
+  - AERONET
+  - TabPFN
+  - Middle East
+  - remote sensing
+references:
+  - type: dataset
+    title: "Middle East AOD dataset: Sentinel-2 L1C image patches matched to AERONET aerosol optical depth at 550 nm"
+    authors:
+      - family-names: Lazkani
+        given-names: Baraa
+      - family-names: Ibrahim
+        given-names: Modar
+    url: "https://huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset"

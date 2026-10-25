@@ -1,0 +1,15 @@
+{
+  "title": "middle_east_AOD_estimation: processing, feature-extraction, modelling, and evaluation code for Sentinel-2 L1C aerosol optical depth estimation over the Middle East",
+  "upload_type": "software",
+  "description": "Code accompanying the manuscript \"Machine Learning and Tabular Foundation Models for Aerosol Optical Depth Estimation From Sentinel-2 L1C Imagery Over the Middle East: Within-Region Skill and the Spatial Generalization Gap\" (Earth and Space Science, manuscript 2026EA005451). The repository contains the AERONET and Sentinel-2 data-collection scripts, the feature-engineering notebooks, the model training and leave-one-site-out evaluation notebooks, the model predictions and metrics, and the scripts for the statistics, figures, and Supporting Information of the paper. The matched Sentinel-2/AERONET dataset itself is hosted on the Hugging Face Hub.",
+  "creators": [
+    {"name": "Lazkani, Baraa", "affiliation": "Department of Robotics and Intelligent Systems Engineering, Manara University, Latakia, Syria", "orcid": "0009-0009-2501-4111"},
+    {"name": "Ibrahim, Modar", "affiliation": "Department of Robotics and Intelligent Systems Engineering, Manara University, Latakia, Syria"}
+  ],
+  "license": "MIT",
+  "keywords": ["aerosol optical depth", "Sentinel-2", "AERONET", "TabPFN", "Middle East", "remote sensing"],
+  "related_identifiers": [
+    {"identifier": "https://github.com/DualMind-Lab/middle_east_AOD_estimation", "relation": "isSupplementTo", "scheme": "url"},
+    {"identifier": "https://huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset", "relation": "isSupplementedBy", "scheme": "url"}
+  ]
+}
