@@ -13,7 +13,7 @@ df=pd.read_csv(DATASET)
 refl=pd.read_csv(REPO/'paper_analysis/outputs/site_reflectance.csv').set_index('site')
 g=df.groupby('AERONET_Site').agg(lat=('Site_Latitude(Degrees)','first'),lon=('Site_Longitude(Degrees)','first'),N=('AOD_550nm','size'),aod=('AOD_550nm','mean')).reset_index()
 pretty=lambda s:s.replace('_',' ')
-fig=plt.figure(figsize=(7.2,8.6))
+fig=plt.figure(figsize=(6.6,8.2))
 gs_top=gridspec.GridSpec(1,1,figure=fig,left=0.01,right=0.97,top=0.985,bottom=0.64)
 gs_bot=gridspec.GridSpec(2,2,figure=fig,height_ratios=[3.4,1.9],hspace=0.42,wspace=0.1,left=0.21,right=0.985,top=0.585,bottom=0.055)
 # ---- (a) map with satellite-style basemap
@@ -31,9 +31,9 @@ gl=ax.gridlines(crs=proj,draw_labels=True,lw=0.2,color='white',alpha=0.7,ls='--'
 gl.xlabel_style={'size':9}; gl.ylabel_style={'size':9}
 sc=ax.scatter(g.lon,g.lat,s=g.N/4.5,c=g.aod,cmap='YlOrRd',vmin=0.05,vmax=0.37,edgecolors='k',lw=0.6,zorder=5,transform=proj)
 SHORT={'DEWA_ResearchCentre':'DEWA','Masdar_Institute':'Masdar','Mezaira':'Mezaira','IMS-METU-ERDEMLI':'IMS-METU','KAUST_Campus':'KAUST','SEDE_BOKER':'Sede Boker','Migal':'Migal','Technion_Haifa_IL':'Technion','Weizmann_Institute':'Weizmann','Eilat':'Eilat','Kuwait_University':'Kuwait U.','Cairo_EMA_2':'Cairo','Qena_SVU':'Qena','El_Farafra':'El Farafra','Shagaya_Park':'Shagaya Park','University_of_Nizwa':'Nizwa'}
-OFF={'Eilat':(2.2,-1.5,'left'),'SEDE_BOKER':(-3.2,-0.6,'right'),'Weizmann_Institute':(-3.2,0.9,'right'),'Technion_Haifa_IL':(2.4,1.6,'left'),'Migal':(2.6,0.2,'left'),
- 'Cairo_EMA_2':(-2.6,0.9,'right'),'Qena_SVU':(2.2,-1.4,'left'),'El_Farafra':(2.2,-1.0,'left'),'IMS-METU-ERDEMLI':(2.2,1.3,'left'),'Kuwait_University':(1.5,2.4,'left'),
- 'Shagaya_Park':(-2.0,-2.0,'right'),'KAUST_Campus':(2.4,-1.4,'left'),'DEWA_ResearchCentre':(1.8,2.0,'left'),'Masdar_Institute':(-1.5,-2.4,'right'),'Mezaira':(-2.6,0.6,'right'),'University_of_Nizwa':(1.6,-1.8,'left')}
+OFF={'Eilat':(2.2,-1.5,'left'),'SEDE_BOKER':(3.2,-0.1,'left'),'Weizmann_Institute':(3.0,0.3,'left'),'Technion_Haifa_IL':(2.4,1.6,'left'),'Migal':(2.6,0.2,'left'),
+ 'Cairo_EMA_2':(-2.6,0.9,'right'),'Qena_SVU':(2.2,-1.4,'left'),'El_Farafra':(0.5,1.8,'left'),'IMS-METU-ERDEMLI':(2.2,1.3,'left'),'Kuwait_University':(1.5,2.4,'left'),
+ 'Shagaya_Park':(-2.0,-2.0,'right'),'KAUST_Campus':(2.4,-1.4,'left'),'DEWA_ResearchCentre':(1.8,2.0,'left'),'Masdar_Institute':(-1.5,-2.4,'right'),'Mezaira':(-2.6,0.6,'right'),'University_of_Nizwa':(0.2,-1.7,'center')}
 T=proj._as_mpl_transform(ax)
 cy=g[g.AERONET_Site.isin(['CUT-TEPAK','AgiaMarina_Xyliatou','Nicosia','Troodos_CAO'])]
 for _,r in g.iterrows():
@@ -46,7 +46,7 @@ ax.annotate('Cyprus (4 sites)',xy=(cy.lon.mean(),cy.lat.mean()),xytext=(cy.lon.m
 cb=fig.colorbar(sc,ax=ax,orientation='vertical',fraction=0.025,pad=0.015); cb.set_label('Mean AOD at 550 nm',fontsize=9.5); cb.ax.tick_params(labelsize=9)
 for n,l in [(100,'100'),(400,'400'),(800,'800')]:
     ax.scatter([],[],s=n/4.5,c='#cccccc',edgecolors='k',lw=0.6,label=l)
-ax.legend(title='Samples',fontsize=9,title_fontsize=9,loc='lower left',framealpha=0.9,labelspacing=1.0,borderpad=0.7)
+ax.legend(title='Samples',fontsize=9,title_fontsize=9,loc='upper right',framealpha=0.9,labelspacing=1.0,borderpad=0.7)
 ax.set_title('(a)',loc='left',fontsize=11,fontweight='bold',pad=3)
 # ---- (b) samples per station, (c) surface brightness
 o=g.sort_values('N',ascending=False).reset_index(drop=True); y=np.arange(len(o))

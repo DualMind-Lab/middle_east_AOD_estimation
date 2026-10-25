@@ -21,11 +21,12 @@ Model predictions and metrics are read from `modeling/results/`.
 2. `statistics/02_model_comparison.py`, `03_friedman_all_splits.py` — Friedman omnibus tests, Wilcoxon and sign-flip tests (`outputs/friedman_*.csv`, `pairwise_wilcoxon_*.csv`, `sign_flip_permutation_mae.csv`, `bootstrap_cis.csv`).
 3. `revision_2026/rel_metrics.py` — RMSE, MAE, MBE as a percentage of the mean observed AOD (Table 7; `outputs/rel_metrics.csv`).
 4. `revision_2026/reflectance.py` — median top-of-atmosphere reflectance of the clearest scenes per station (Figure 1c; `outputs/site_reflectance.csv`).
-5. `revision_2026/mi_top300.py`, `mi_top300_b.py` — composition of the mutual-information top-300 feature set (Section 5.2; `outputs/mi_top300*.json`).
+5. `revision_2026/mi_top300.py`, `mi_top300_b.py` — composition of the mutual-information top-300 feature set (Section 5.2; `outputs/mi_top300*.json`). `mi_top300_all_folds.py` repeats the check for the stratified, hold-out, and all 20 LOSO training sets (`outputs/mi_top300_all_folds.json`; requires the LOSO feature CSVs).
 6. `revision_2026/feature_families.py`, `extract_index_defs.py`, `build_si.py` — feature list (Data Set S1, `outputs/ds01_feature_list.csv`), spectral-index definitions, and the LaTeX source of the Supporting Information (`si/si.tex`; compile with AGU's `agutexSI2019.cls` and `apacite`).
 7. `figures/make_figures.py`, `make_fig1.py`, `make_fig2_fig11.py`, `fig_geo_map.py` — Figures 1–11 as vector PDFs (written to `figures/out/`). The forest and bin plots (Figures 3–7, 9, 10) come from `make_figures.py`; the map (Figure 8) from `fig_geo_map.py`.
 
 ## Notes
 
 * Station labels for the stratified and hold-out designs are recovered by matching `y_true` to `AOD_550nm` in `dataset.csv`; 40 values occur in more than one row (about 0.6 % of observations) and the first match is used. The effect on the cluster bootstrap is negligible.
-* `outputs/ds01_feature_list.csv` is Data Set S1 of the Supporting Information: the name and category of each of the 3,700 retained features.
+* `outputs/ds01_feature_list.csv` is Data Set S1 of the Supporting Information: the name, category code, and category name (as in Table S2 and Figure 2) of each of the 3,700 retained features.
+* `revision_2026/build_si.py` notes that the `mbi` index as implemented in the feature code is constant by construction (its ratio equals 1), so most of its statistics were removed by the variance filter.

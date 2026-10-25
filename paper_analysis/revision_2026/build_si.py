@@ -28,12 +28,12 @@ fams=[
 ('Per-band statistics','band_stats','Ten statistics (mean, variance, standard deviation, median, skewness, kurtosis, 10th, 25th, 75th, 90th percentile) of each of the 13 bands, computed over the 128$\\times$128 pixels on square-root-scaled digital numbers.','\\texttt{B02\\_std}, \\texttt{B8A\\_p90}'),
 ('Band differences and ratios','band_ratios','For each of the 78 band pairs $i<j$ (band indices of Table S1), the normalized difference $(B_i-B_j)/(B_i+B_j)$ and the ratio $B_i/B_j$ per pixel, each summarized by the ten statistics (78$\\times$2$\\times$10).','\\texttt{rdiff\\_0\\_1\\_std}, \\texttt{rdiv\\_4\\_5\\_p90}'),
 ('Advanced band interactions','advanced','Per band pair: geometric mean $\\sqrt{B_iB_j}$, harmonic mean, and normalized ratio $(B_i-B_j)/\\sqrt{B_i^2+B_j^2}$ (78$\\times$3, scene means); per-band Shannon entropy of the 256-bin histogram (13); per band triple $i<j<k$: product difference $B_iB_j-B_iB_k$ and cross ratio $B_iB_j/B_k$ (286$\\times$2, scene means). Square-root-scaled digital numbers.','\\texttt{geomean\\_1\\_3}, \\texttt{B02\\_entropy}, \\texttt{cratio\\_1\\_8\\_9}'),
-('Blue-band texture','glcm_b02','Gray-level co-occurrence features (contrast, dissimilarity, homogeneity, energy, correlation) of the blue band B02, computed on a fixed reflectance scale of 0--0.5 mapped to 256 gray levels, pixel distance 1, averaged over four directions.','\\texttt{B02raw\\_GLCM\\_contrast}'),
+('Blue-band texture (GLCM)','glcm_b02','Gray-level co-occurrence features (contrast, dissimilarity, homogeneity, energy, correlation) of the blue band B02, computed on a fixed reflectance scale of 0--0.5 mapped to 256 gray levels, pixel distance 1, averaged over four directions.','\\texttt{B02raw\\_GLCM\\_contrast}'),
 ('Vegetation indices I','veg_idx1','20 indices (Table S3), each with the ten statistics plus five GLCM features (15 per index).','\\texttt{ndvi\\_mean}, \\texttt{evi\\_GLCM\\_energy}'),
-('Vegetation and soil indices II','veg_idx2','25 further vegetation, soil, moisture, and band-ratio indices (Table S3), 15 features per index; seven features were removed by the filtering steps.','\\texttt{msi\\_p25}, \\texttt{r04\\_std}'),
-('Bloom and dust indices','bloom','Six indices built from B02, B03, B04, and B08 (Table S4), 15 features per index.','\\texttt{NDYI\\_mean}'),
+('Vegetation/soil indices II','veg_idx2','25 further vegetation, soil, moisture, and band-ratio indices (Table S3), 15 features per index; seven features were removed by the filtering steps.','\\texttt{msi\\_p25}, \\texttt{r04\\_std}'),
+('Bloom/dust indices','bloom','Six indices built from B02, B03, B04, and B08 (Table S4), 15 features per index.','\\texttt{NDYI\\_mean}'),
 ('Red-edge indices','rededge','18 indices using B05--B07 (Table S4), 15 features per index; one feature was removed by the filtering steps.','\\texttt{NDRE1\\_p10}'),
-('Aerosol-physics indices','aod_physics','15 indices built around blue/SWIR contrast, spectral curvature, dust, and Angstrom-like band slopes (Table S5), ten statistics per index (no texture features), computed on reflectance.','\\texttt{aod\\_B01\\_over\\_B02\\_std}'),
+('AOD-physics indices','aod_physics','15 indices built around blue/SWIR contrast, spectral curvature, dust, and Angstrom-like band slopes (Table S5), ten statistics per index (no texture features), computed on reflectance.','\\texttt{aod\\_B01\\_over\\_B02\\_std}'),
 ]
 tab2="\n".join(f"{n} & {ncat[k]:,} & {d} & {e} \\\\" for n,k,d,e in fams)
 assert sum(ncat[k] for _,k,_,_ in fams)==3700
@@ -41,7 +41,7 @@ vegrows=rows('veg1')+['\\multicolumn{2}{l}{\\textit{Vegetation and soil indices 
 bloomrows=rows('bloom')+['\\multicolumn{2}{l}{\\textit{Red-edge indices}} \\\\']+rows('rededge')
 aodrows=rows('aod')+[f"{tt('aod\\_angstrom\\_alpha')} & slope of $\\ln\\rho$ against $\\ln\\lambda$ over B01--B04 (443, 490, 560, 665~nm), least-squares fit per pixel \\\\"]
 aodrows=[r.replace('aod\\_B02\\_airmass','aod\\_B02\\_airmass') for r in aodrows]
-tex=r"""\documentclass[draft,jgrga]{agutexSI2019}
+tex=r"""\documentclass[draft,ea]{agutexSI2019}
 \usepackage{graphicx}
 \setkeys{Gin}{draft=false}
 \begin{document}
@@ -71,7 +71,7 @@ The ten distribution statistics used throughout are the mean (\texttt{mean}), va
 
 The raw feature matrix has 3,708 columns. Features are then filtered with the training data only: values with an absolute magnitude above $10^{4}$ are set to missing, features with more than 80\% missing training values are removed, missing values are replaced by the training mean, and image-derived features with a training standard deviation below $10^{-5}$ are removed. Eight features were removed in this way, which leaves 3,700 features (Table S2). A quantile transformation to a normal distribution is then applied, separately to the image-derived features and to the nine metadata features. The names and categories of all 3,700 retained features are listed in Data Set S1.
 
-\noindent\textbf{Data Set S1.} \texttt{ds01\_feature\_list.csv}: the 3,700 features used in the study, with one row per feature and the columns \texttt{feature} (feature name as used in the code) and \texttt{category} (one of the ten categories of Table S2). The file is also deposited in the code repository cited in the main article.
+\noindent\textbf{Data Set S1.} \texttt{ds01\_feature\_list.csv}: the 3,700 features used in the study, with one row per feature and the columns \texttt{feature} (feature name as used in the code), \texttt{category} (category code used in the code) and \texttt{category\_name} (the corresponding category name of Table S2 and Figure 2 of the main article). The file is also deposited in the code repository cited in the main article.
 
 \end{article}
 \clearpage
@@ -107,7 +107,7 @@ Total & 3,700 & & \\
 
 \begin{table}
 \settablenum{S3}
-\caption{Definition of the vegetation, soil, and moisture indices (top: indices I; bottom: indices II). Each index is computed per pixel from reflectance bands B01--B12, as implemented in the code; names follow the code and may differ from the standard index of the same name. Each index is summarized by ten statistics and five GLCM features.}
+\caption{Definition of the vegetation, soil, and moisture indices (top: indices I; bottom: indices II). Each index is computed per pixel from reflectance bands B01--B12, as implemented in the code; names follow the code and may differ from the standard index of the same name. The expression for \\texttt{mbi} is constant by construction (its ratio equals 1 up to the small constant), so most of its statistics were removed by the variance filter (8 of 15 retained). Each index is summarized by ten statistics and five GLCM features.}
 \centering
 \scriptsize\baselineskip=9pt\normalbaselineskip=9pt
 \begin{tabular}{l p{0.72\textwidth}}

@@ -6,6 +6,9 @@ from pathlib import Path
 REPO = Path(__file__).resolve().parents[2]
 META = ['Day_of_Year', 'Site_Latitude(Degrees)', 'Site_Longitude(Degrees)', 'Site_Elevation(m)', 'Solar_Zenith_Angle(Degrees)',
         'Solar_Azimuth_Angle(Degrees)', 'Airmass', 'Year', 'Month']
+CATEGORY_NAMES = {'meta': 'Scene metadata', 'advanced': 'Advanced band interactions', 'band_stats': 'Per-band statistics',
+                  'aod_physics': 'AOD-physics indices', 'band_ratios': 'Band differences and ratios', 'veg_idx2': 'Vegetation/soil indices II',
+                  'bloom': 'Bloom/dust indices', 'veg_idx1': 'Vegetation indices I', 'rededge': 'Red-edge indices', 'glcm_b02': 'Blue-band texture (GLCM)'}
 STAT_SUFFIX = r'_(mean|var|median|kurtosis|skew|std|p10|p25|p75|p90|GLCM_\w+)$'
 
 def cat(col):
@@ -26,6 +29,7 @@ def cat(col):
 if __name__ == '__main__':
     names = pd.read_csv(REPO / 'feature_engineering/features_analysis/correlation/spearman_all.csv')['feature'].tolist()
     df = pd.DataFrame({'feature': names, 'category': [cat(c) for c in names]})
+    df['category_name'] = df.category.map(CATEGORY_NAMES)   # names used in Figure 2 / Table S2
     assert len(df) == 3700 and 'other' not in set(df.category)
     out = REPO / 'paper_analysis/outputs/ds01_feature_list.csv'
     df.to_csv(out, index=False)

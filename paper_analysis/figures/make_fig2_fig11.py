@@ -3,7 +3,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from matplotlib.patches import Patch
 from pathlib import Path
-plt.rcParams.update({'font.family':'sans-serif','font.size':9,'pdf.fonttype':42,'axes.spines.top':False,'axes.spines.right':False})
+plt.rcParams.update({'font.family':'sans-serif','font.size':10,'pdf.fonttype':42,'axes.spines.top':False,'axes.spines.right':False})
 OUT=Path(__file__).resolve().parent/'out'; OUT.mkdir(exist_ok=True)
 import os
 from pathlib import Path
@@ -19,14 +19,14 @@ cs=cs.sort_values('median_abs_r',ascending=False)
 assert cs.n_features.sum()==3700
 labels=[NAMES[i] for i in cs.index]; y=np.arange(len(cs))
 # ---------------- Figure 2: three panels
-fig,axes=plt.subplots(1,3,figsize=(7.2,3.5),sharey=True,gridspec_kw={'wspace':0.12,'width_ratios':[1,1,1]})
+fig,axes=plt.subplots(1,3,figsize=(6.6,3.6),sharey=True,gridspec_kw={'wspace':0.12,'width_ratios':[1,1,1]})
 for ax,col,xl,c in zip(axes,['median_abs_r','n_features','compression_ratio'],
     ['Median |Spearman $\\rho$|\nwith AOD','Number of features','Compression ratio\n(features / PCs at 95%)'],
     ['steelblue','darkorange','seagreen']):
-    ax.barh(y,cs[col].values,color=c,height=0.7); ax.set_xlabel(xl,fontsize=8.5); ax.tick_params(labelsize=8)
+    ax.barh(y,cs[col].values,color=c,height=0.7); ax.set_xlabel(xl,fontsize=9.8); ax.tick_params(labelsize=9.2)
     ax.grid(axis='x',color='#dddddd',lw=0.5); ax.set_axisbelow(True)
-axes[0].set_yticks(y); axes[0].set_yticklabels(labels,fontsize=8); axes[0].invert_yaxis()
-axes[1].set_xscale('log'); axes[1].set_xlim(3,3000)
+axes[0].set_yticks(y); axes[0].set_yticklabels(labels,fontsize=9.2); axes[0].invert_yaxis()
+axes[1].set_xscale('log'); axes[1].set_xlim(3,3000); axes[1].set_xticks([10,100,1000]); axes[1].set_xticklabels(['10','100','1,000']); axes[1].xaxis.set_minor_formatter(plt.NullFormatter())
 fig.savefig(OUT/'figure2.pdf',bbox_inches='tight'); plt.close()
 # ---------------- Figure 11: (a) category importance + (b) metadata MI
 D=DATASET
@@ -37,20 +37,20 @@ X=df[list(cols.values())].values; mi=mutual_info_regression(X,df['AOD_550nm'].va
 print('MI recomputed:',dict(zip(cols,np.round(mi,3))),' (paper: lat .206 lon .188 elev .185 doy .159 sza .087)')
 mi_paper={'Latitude':0.206,'Longitude':0.188,'Elevation':0.185,'Day of year':0.159,'Solar zenith':0.087}
 mv=sorted(mi_paper.items(),key=lambda t:-t[1])
-fig,(a1,a2)=plt.subplots(1,2,figsize=(7.2,3.6),gridspec_kw={'width_ratios':[1.5,1],'wspace':0.9})
+fig,(a1,a2)=plt.subplots(1,2,figsize=(6.6,3.8),gridspec_kw={'width_ratios':[1.5,1],'wspace':0.9})
 a1.barh(y,cs.median_abs_r.values,color=[GROUP[i] for i in cs.index],edgecolor='#333333',lw=0.5,height=0.68,zorder=3)
 for i,(v,n) in enumerate(zip(cs.median_abs_r.values,cs.n_features.values)):
-    a1.text(v+0.006,i,f'$n$ = {n:,}',va='center',ha='left',fontsize=7.5,color='#333333')
-a1.set_yticks(y); a1.set_yticklabels(labels,fontsize=8.5); a1.invert_yaxis(); a1.set_xlim(0,0.42)
-a1.set_xlabel('Median |Spearman $\\rho$| with AOD$_{550}$',fontsize=9); a1.tick_params(axis='x',labelsize=8.5)
+    a1.text(v+0.006,i,f'$n$ = {n:,}',va='center',ha='left',fontsize=8.6,color='#333333')
+a1.set_yticks(y); a1.set_yticklabels(labels,fontsize=9.8); a1.invert_yaxis(); a1.set_xlim(0,0.42)
+a1.set_xlabel('Median |Spearman $\\rho$| with AOD$_{550}$',fontsize=10.3); a1.tick_params(axis='x',labelsize=9.8)
 a1.grid(axis='x',color='#dddddd',lw=0.5,zorder=0); a1.set_axisbelow(True)
-a1.set_title('(a)',loc='left',fontsize=10,fontweight='bold')
+a1.set_title('(a)',loc='left',fontsize=11.5,fontweight='bold')
 a1.legend(handles=[Patch(fc='#C0845A',ec='#333',lw=.5,label='Geographic / seasonal'),Patch(fc='#4A90C4',ec='#333',lw=.5,label='Aerosol-sensitive spectral'),
-  Patch(fc='#7AAF7A',ec='#333',lw=.5,label='Surface-sensitive spectral'),Patch(fc='#B0B0B0',ec='#333',lw=.5,label='Texture')],fontsize=7.5,loc='upper center',bbox_to_anchor=(0.35,-0.2),ncol=2,frameon=False)
+  Patch(fc='#7AAF7A',ec='#333',lw=.5,label='Surface-sensitive spectral'),Patch(fc='#B0B0B0',ec='#333',lw=.5,label='Texture')],fontsize=8.6,loc='upper center',bbox_to_anchor=(0.35,-0.2),ncol=2,frameon=False)
 y2=np.arange(len(mv)); a2.barh(y2,[v for _,v in mv],color='#C0845A',edgecolor='#333333',lw=0.5,height=0.6,zorder=3)
-for i,(k,v) in enumerate(mv): a2.text(v+0.004,i,f'{v:.3f}',va='center',fontsize=8.5)
-a2.set_yticks(y2); a2.set_yticklabels([k for k,_ in mv],fontsize=8.5); a2.invert_yaxis(); a2.set_xlim(0,0.29)
-a2.set_xlabel('Mutual information with AOD$_{550}$',fontsize=9); a2.tick_params(axis='x',labelsize=8.5)
-a2.grid(axis='x',color='#dddddd',lw=0.5,zorder=0); a2.set_axisbelow(True); a2.set_title('(b)',loc='left',fontsize=10,fontweight='bold')
+for i,(k,v) in enumerate(mv): a2.text(v+0.004,i,f'{v:.3f}',va='center',fontsize=9.8)
+a2.set_yticks(y2); a2.set_yticklabels([k for k,_ in mv],fontsize=9.8); a2.invert_yaxis(); a2.set_xlim(0,0.29)
+a2.set_xlabel('Mutual information',fontsize=10.3); a2.tick_params(axis='x',labelsize=9.8)
+a2.grid(axis='x',color='#dddddd',lw=0.5,zorder=0); a2.set_axisbelow(True); a2.set_title('(b)',loc='left',fontsize=11.5,fontweight='bold')
 fig.savefig(OUT/'figure11.pdf',bbox_inches='tight'); plt.close()
 print('ok')
