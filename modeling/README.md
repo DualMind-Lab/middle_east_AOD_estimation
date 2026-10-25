@@ -95,7 +95,7 @@ In LOSO, only `tabpfn_pca150` and `tabpfn_mi300` are evaluated (the two best con
 | Spearman ρ | Secondary rank-based check |
 | R² | Full-range only; not reported in narrow bins |
 | slope, intercept | Linear fit ŷ vs y |
-| %within EE | Fraction within EE = ±(0.05 + 0.20·τ) — Ichoku envelope |
+| %within EE | Fraction within EE = ±(0.05 + 0.15·τ), the over-land Dark Target expected-error envelope (Levy et al. 2013). The `pct_within_EE` columns of `results/loso/per_site_metrics.csv` and `pooled_metrics.csv` were computed with 0.20·τ, see `results/loso/NOTE.md` |
 | %above EE, %below EE | Over/under-retrieval fractions |
 
 All point metrics reported with **95% bootstrap CIs** (1,000 resamples, paired indices, percentile method).

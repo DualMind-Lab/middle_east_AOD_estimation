@@ -31,3 +31,10 @@ modeling/src/catboost_info/
 __pycache__/
 *.pyc
 *.pyo
+
+# paper_analysis: generated figures and the downloaded Natural Earth basemap
+paper_analysis/figures/out/
+paper_analysis/basemap/
+paper_analysis/si/*.cls
+paper_analysis/si/*.aux
+paper_analysis/si/*.log

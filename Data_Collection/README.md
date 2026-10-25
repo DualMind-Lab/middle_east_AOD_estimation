@@ -362,7 +362,7 @@ Data_Collection/
 
 > **Data availability:** `temp_csv_files/`, `Sentinel2_L1C/`, and `Dataset/` (including
 > `dataset.csv` and all 6,183 merged images) are not included in this repository due to
-> size. The dataset will be published at
-> [huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset](https://huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset/tree/main)
-> by **1 August 2026**. All processing scripts in `src/` are provided so the pipeline
-> can be reproduced from source AERONET/Sentinel-2 data in the meantime.
+> size. The dataset is available at
+> [huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset](https://huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset).
+> All processing scripts in `src/` are provided so the pipeline can also be reproduced
+> from source AERONET/Sentinel-2 data.

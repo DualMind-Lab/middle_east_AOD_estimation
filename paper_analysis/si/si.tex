@@ -1,0 +1,212 @@
+\documentclass[draft,jgrga]{agutexSI2019}
+\usepackage{graphicx}
+\setkeys{Gin}{draft=false}
+\begin{document}
+\title{Supporting Information for ``Machine Learning and Tabular Foundation Models for Aerosol Optical Depth Estimation From Sentinel-2 L1C Imagery Over the Middle East: Within-Region Skill and the Spatial Generalization Gap''}
+\authors{Baraa Lazkani\affil{1}, Modar Ibrahim\affil{1}}
+\affiliation{1}{Department of Robotics and Intelligent Systems Engineering, Manara University, Latakia, Syria}
+\begin{article}
+\noindent\textbf{Contents of this file}
+\begin{enumerate}
+\item Text S1
+\item Tables S1 to S5
+\end{enumerate}
+\noindent\textbf{Additional Supporting Information (Files uploaded separately)}
+\begin{enumerate}
+\item Caption for Data Set S1
+\end{enumerate}
+
+\noindent\textbf{Introduction}
+
+This file documents the 3,700 image-derived and metadata features used in the main article. Text S1 describes how the features are computed and named, Table S1 gives the band numbering used in feature names, Table S2 describes the ten feature categories shown in Figure 2 and Figure 11 of the main article, and Tables S3 to S5 list the definition of every spectral index. Data Set S1 lists the name and category of every feature. The processing code that generates the features is available in the code repository cited in the Open Research section of the main article.
+
+\noindent\textbf{Text S1. Feature construction and naming.}
+
+Each Sentinel-2 L1C image has 13 bands, which are numbered 0 to 12 in feature names (Table S1). All images are reduced from about 500$\times$500 to 128$\times$128 pixels by area averaging before feature extraction. Pixels with digital numbers outside $(0,10^{4}]$ are treated as invalid; an image is rejected if more than 10\% of the pixels of any band are invalid or if the 95th percentile of band B10 exceeds 300, and the remaining invalid pixels are replaced by the band mean. Two arrays are used: square-root-scaled digital numbers (for the band statistics, band differences and ratios, and advanced band interactions) and reflectance, equal to the digital number divided by $10^{4}$ (for the spectral indices and the blue-band texture). A small constant of $10^{-6}$ is added to denominators to avoid division by zero; it is omitted from the definitions below.
+
+The ten distribution statistics used throughout are the mean (\texttt{mean}), variance (\texttt{var}), median (\texttt{median}), kurtosis (\texttt{kurtosis}), skewness (\texttt{skew}), standard deviation (\texttt{std}), and the 10th, 25th, 75th, and 90th percentiles (\texttt{p10}, \texttt{p25}, \texttt{p75}, \texttt{p90}), each computed over the pixels of one image. A feature name is the name of the quantity followed by the statistic, for example \texttt{rdiff\_0\_1\_std} is the standard deviation over the image of the normalized difference between bands 0 (B01) and 1 (B02). Texture features are named with the suffix \texttt{\_GLCM\_} followed by the texture property; for the spectral indices, the gray-level co-occurrence matrix is computed at pixel distance 1 and direction 0, after scaling the index image between its 1st and 99th percentile to 256 levels.
+
+The raw feature matrix has 3,708 columns. Features are then filtered with the training data only: values with an absolute magnitude above $10^{4}$ are set to missing, features with more than 80\% missing training values are removed, missing values are replaced by the training mean, and image-derived features with a training standard deviation below $10^{-5}$ are removed. Eight features were removed in this way, which leaves 3,700 features (Table S2). A quantile transformation to a normal distribution is then applied, separately to the image-derived features and to the nine metadata features. The names and categories of all 3,700 retained features are listed in Data Set S1.
+
+\noindent\textbf{Data Set S1.} \texttt{ds01\_feature\_list.csv}: the 3,700 features used in the study, with one row per feature and the columns \texttt{feature} (feature name as used in the code) and \texttt{category} (one of the ten categories of Table S2). The file is also deposited in the code repository cited in the main article.
+
+\end{article}
+\clearpage
+
+\begin{table}
+\settablenum{S1}
+\caption{Band numbering used in feature names (Sentinel-2 L1C, nominal central wavelengths).}
+\centering
+\begin{tabular}{c l r r l}
+\hline
+Index & Band & Wavelength (nm) & Native resolution (m) & Description \\
+\hline
+0 & B01 & 443 & 60 & Coastal aerosol \\
+1 & B02 & 490 & 10 & Blue \\
+2 & B03 & 560 & 10 & Green \\
+3 & B04 & 665 & 10 & Red \\
+4 & B05 & 705 & 20 & Red edge 1 \\
+5 & B06 & 740 & 20 & Red edge 2 \\
+6 & B07 & 783 & 20 & Red edge 3 \\
+7 & B08 & 842 & 10 & Near infrared \\
+8 & B8A & 865 & 20 & Narrow near infrared \\
+9 & B09 & 945 & 60 & Water vapour \\
+10 & B10 & 1375 & 60 & Cirrus \\
+11 & B11 & 1610 & 20 & Shortwave infrared 1 \\
+12 & B12 & 2190 & 20 & Shortwave infrared 2 \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\settablenum{S2}
+\caption{Feature categories (Figure 2 and Figure 11 of the main article). $n$ is the number of features retained after filtering.}
+\centering
+\small\baselineskip=11pt\normalbaselineskip=11pt
+\begin{tabular}{p{0.15\textwidth} r p{0.45\textwidth} p{0.2\textwidth}}
+\hline
+Category & $n$ & Content & Example names \\
+\hline
+Scene metadata & 9 & Day of year, latitude, longitude, elevation, solar zenith angle, solar azimuth angle (from the overpass time), airmass $=1/\cos(\mathrm{SZA})$, year, month. & \texttt{Day\_of\_Year}, \texttt{Airmass} \\
+Per-band statistics & 130 & Ten statistics (mean, variance, standard deviation, median, skewness, kurtosis, 10th, 25th, 75th, 90th percentile) of each of the 13 bands, computed over the 128$\times$128 pixels on square-root-scaled digital numbers. & \texttt{B02\_std}, \texttt{B8A\_p90} \\
+Band differences and ratios & 1,560 & For each of the 78 band pairs $i<j$ (band indices of Table S1), the normalized difference $(B_i-B_j)/(B_i+B_j)$ and the ratio $B_i/B_j$ per pixel, each summarized by the ten statistics (78$\times$2$\times$10). & \texttt{rdiff\_0\_1\_std}, \texttt{rdiv\_4\_5\_p90} \\
+Advanced band interactions & 819 & Per band pair: geometric mean $\sqrt{B_iB_j}$, harmonic mean, and normalized ratio $(B_i-B_j)/\sqrt{B_i^2+B_j^2}$ (78$\times$3, scene means); per-band Shannon entropy of the 256-bin histogram (13); per band triple $i<j<k$: product difference $B_iB_j-B_iB_k$ and cross ratio $B_iB_j/B_k$ (286$\times$2, scene means). Square-root-scaled digital numbers. & \texttt{geomean\_1\_3}, \texttt{B02\_entropy}, \texttt{cratio\_1\_8\_9} \\
+Blue-band texture & 5 & Gray-level co-occurrence features (contrast, dissimilarity, homogeneity, energy, correlation) of the blue band B02, computed on a fixed reflectance scale of 0--0.5 mapped to 256 gray levels, pixel distance 1, averaged over four directions. & \texttt{B02raw\_GLCM\_contrast} \\
+Vegetation indices I & 300 & 20 indices (Table S3), each with the ten statistics plus five GLCM features (15 per index). & \texttt{ndvi\_mean}, \texttt{evi\_GLCM\_energy} \\
+Vegetation and soil indices II & 368 & 25 further vegetation, soil, moisture, and band-ratio indices (Table S3), 15 features per index; seven features were removed by the filtering steps. & \texttt{msi\_p25}, \texttt{r04\_std} \\
+Bloom and dust indices & 90 & Six indices built from B02, B03, B04, and B08 (Table S4), 15 features per index. & \texttt{NDYI\_mean} \\
+Red-edge indices & 269 & 18 indices using B05--B07 (Table S4), 15 features per index; one feature was removed by the filtering steps. & \texttt{NDRE1\_p10} \\
+Aerosol-physics indices & 150 & 15 indices built around blue/SWIR contrast, spectral curvature, dust, and Angstrom-like band slopes (Table S5), ten statistics per index (no texture features), computed on reflectance. & \texttt{aod\_B01\_over\_B02\_std} \\
+\hline
+Total & 3,700 & & \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\settablenum{S3}
+\caption{Definition of the vegetation, soil, and moisture indices (top: indices I; bottom: indices II). Each index is computed per pixel from reflectance bands B01--B12, as implemented in the code; names follow the code and may differ from the standard index of the same name. Each index is summarized by ten statistics and five GLCM features.}
+\centering
+\scriptsize\baselineskip=9pt\normalbaselineskip=9pt
+\begin{tabular}{l p{0.72\textwidth}}
+\hline
+Index & Definition (per pixel) \\
+\hline
+\multicolumn{2}{l}{\textit{Vegetation and soil indices I}} \\
+\texttt{ndvi} & \texttt{(B08 - B04) / (B08 + B04)} \\
+\texttt{gli} & \texttt{(2 * B03 - B04 - B02) / (2 * B03 + B04 + B02)} \\
+\texttt{cvi} & \texttt{(B08 * B04) / (B03\^{}2)} \\
+\texttt{sipi} & \texttt{(B08 - B02) / (B08 - B04)} \\
+\texttt{ndwi} & \texttt{(B08 - B11) / (B08 + B11)} \\
+\texttt{ccci} & \texttt{(B08 - B05) / (B08 + B05) / ((B08 - B04) / (B08 + B04))} \\
+\texttt{hue} & \texttt{arctan2((B02 - B03), (B03 - B04))} \\
+\texttt{rendvi} & \texttt{(B06 - B05) / (B06 + B05)} \\
+\texttt{reci} & \texttt{(B08 / B04) - 1} \\
+\texttt{evi} & \texttt{2.5 * (B08 - B04) / (B08 + 6 * B04 - 7.5 * B02 + 1.0)} \\
+\texttt{evi2} & \texttt{2.4 * (B08 - B04) / (B08 + B04 + 1.0)} \\
+\texttt{bsi} & \texttt{(B11 + B04) / (B08 + B02)} \\
+\texttt{npcri} & \texttt{(B03 - B08) / (B03 + B08)} \\
+\texttt{mndvi} & \texttt{(B08 - B04) / (B08 + B04 - 2 * B02)} \\
+\texttt{ndsi} & \texttt{(B03 - B11) / (B03 + B11)} \\
+\texttt{ndmi} & \texttt{(B08 - B11) / (B08 + B11)} \\
+\texttt{ndbi} & \texttt{(B11 - B08) / (B11 + B08)} \\
+\texttt{ndci} & \texttt{(B05 - B04) / (B05 + B04)} \\
+\texttt{gndvi} & \texttt{(B08 - B03) / (B08 + B03)} \\
+\texttt{savi} & \texttt{((B01 - B02) / (B01 + B02 + 0.428)) * 1.428} \\
+\multicolumn{2}{l}{\textit{Vegetation and soil indices II}} \\
+\texttt{ndvi\_r} & \texttt{(B08 - B07) / (B08 + B07)} \\
+\texttt{chl} & \texttt{(B07 / B05) - 1} \\
+\texttt{bi} & \texttt{(B04\^{}2 + B03\^{}2 + B02\^{}2) / 3} \\
+\texttt{si} & \texttt{(B04 - B02) / (B04 + B02)} \\
+\texttt{nmdi} & \texttt{(B08 - (B11 - B12)) / (B08 + (B11 - B12))} \\
+\texttt{wbi} & \texttt{B8A / B09} \\
+\texttt{msi} & \texttt{B11 / B08} \\
+\texttt{bsi1} & \texttt{((B12 + B04) - (B8A + B02)) / ((B12 + B04) + (B8A + B02))} \\
+\texttt{bsi2} & \texttt{((B11 + B04) - (B8A + B02)) / ((B11 + B04) + (B8A + B02))} \\
+\texttt{ndsi1} & \texttt{(B11 - B8A) / (B11 + B8A)} \\
+\texttt{ndsi2} & \texttt{(B12 - B03) / (B12 + B03)} \\
+\texttt{bi2} & \texttt{B04 + B11 - B8A} \\
+\texttt{dbsi} & \texttt{(B12 - B03)/(B12 + B03) - (B8A - B04)/(B8A + B04)} \\
+\texttt{mbi} & \texttt{((B11 + B12 + B8A) / (B11 + B12 + B8A)) + 0.5} (8 of 15 retained) \\
+\texttt{r01} & \texttt{B01 / B03} \\
+\texttt{r02} & \texttt{B01 / B05} \\
+\texttt{r03} & \texttt{B11 / B12} \\
+\texttt{r04} & \texttt{B05 / B04} \\
+\texttt{mi} & \texttt{(B8A - B11) / (B8A + B11)} \\
+\texttt{mresr} & \texttt{(B06 - B01) / (B05 - B01)} \\
+\texttt{psri} & \texttt{(B04 - B02) / B06} \\
+\texttt{tvi} & \texttt{(120 * (B06 - B03) - 200 * (B04 - B03)) / 2} \\
+\texttt{arvi} & \texttt{(B08 - 2 * B04 + B02) / (B08 + 2 * B04 + B02)} \\
+\texttt{exg} & \texttt{2 * B03 - B04 - B02} \\
+\texttt{aci} & \texttt{B08 * (B04 + B03)} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\settablenum{S4}
+\caption{Definition of the bloom and dust indices and the red-edge indices (per pixel, from reflectance). Each index is summarized by ten statistics and five GLCM features.}
+\centering
+\scriptsize\baselineskip=9pt\normalbaselineskip=9pt
+\begin{tabular}{l p{0.72\textwidth}}
+\hline
+Index & Definition (per pixel) \\
+\hline
+\multicolumn{2}{l}{\textit{Bloom and dust indices}} \\
+\texttt{NDGI} & \texttt{(B04 - B03) / (B04 + B03)} \\
+\texttt{DYI} & \texttt{B04 / B03} \\
+\texttt{NDPI} & \texttt{(0.5 * (B04 + B02) - B03) / (0.5 * (B04 + B02) + B03)} \\
+\texttt{NDYI} & \texttt{(0.5 * (B04 + B03) - B02) / (0.5 * (B04 + B03) + B02)} \\
+\texttt{PEBI} & \texttt{NDPI / ((NDGI + 1) * B08)} \\
+\texttt{YEBI} & \texttt{NDYI / ((NDGI + 1) * B08)} \\
+\multicolumn{2}{l}{\textit{Red-edge indices}} \\
+\texttt{NDVIre1} & \texttt{(B08-B05)/(B08+B05)} \\
+\texttt{NDVIre2} & \texttt{(B08-B06)/(B08+B06)} \\
+\texttt{NDVIre3} & \texttt{(B08-B07)/(B08+B07)} \\
+\texttt{NDRE1} & \texttt{(B06-B05)/(B06+B05)} \\
+\texttt{NDRE2} & \texttt{(B07-B05)/(B07+B05)} \\
+\texttt{NDRE3} & \texttt{(B07-B06)/(B07+B06)} \\
+\texttt{CIre1} & \texttt{(B08/B05) - 1} \\
+\texttt{CIre2} & \texttt{(B08/B06) - 1} \\
+\texttt{CIre3} & \texttt{(B08/B07) - 1} \\
+\texttt{MCARI1} & \texttt{((B05-B04) - 0.2 * (B05-B03)) * (B05/B04)} \\
+\texttt{MCARI2} & \texttt{((B06-B04) - 0.2 * (B06-B03)) * (B06/B04)} \\
+\texttt{MCARI3} & \texttt{((B07-B04) - 0.2 * (B07-B03)) * (B07/B04)} \\
+\texttt{TCARI1} & \texttt{3 * ((B05-B04) - 0.2 * (B05-B03)) * (B05/B04)} \\
+\texttt{TCARI2} & \texttt{3 * ((B06-B04) - 0.2 * (B06-B03)) * (B06/B04)} \\
+\texttt{TCARI3} & \texttt{3 * ((B07-B04) - 0.2 * (B07-B03)) * (B07/B04)} \\
+\texttt{MTCI1} & \texttt{(B06-B05)/(B05-B04)} \\
+\texttt{MTCI2} & \texttt{(B07-B05)/(B05-B04)} (14 of 15 retained) \\
+\texttt{MTCI3} & \texttt{(B07-B06)/(B06-B04)} \\
+\hline
+\end{tabular}
+\end{table}
+
+\begin{table}
+\settablenum{S5}
+\caption{Definition of the aerosol-physics-motivated indices (per pixel, from reflectance). $m=1/\cos(\mathrm{SZA})$ is the airmass. Each index is summarized by ten statistics (no texture features).}
+\centering
+\scriptsize\baselineskip=9pt\normalbaselineskip=9pt
+\begin{tabular}{l p{0.62\textwidth}}
+\hline
+Index & Definition (per pixel) \\
+\hline
+\texttt{aod\_B01\_over\_B11} & \texttt{B01 / B11} \\
+\texttt{aod\_B02\_over\_B11} & \texttt{B02 / B11} \\
+\texttt{aod\_B02\_over\_B12} & \texttt{B02 / B12} \\
+\texttt{aod\_nd\_B02\_B11} & \texttt{(B02 - B11) / (B02 + B11)} \\
+\texttt{aod\_nd\_B01\_B12} & \texttt{(B01 - B12) / (B01 + B12)} \\
+\texttt{aod\_B01\_over\_B02} & \texttt{B01 / B02} \\
+\texttt{aod\_B04\_over\_B12} & \texttt{B04 / B12} \\
+\texttt{aod\_spectral\_curv\_B02} & \texttt{ln(B01) + ln(B04) - 2 * ln(B02)} \\
+\texttt{aod\_AFRI1600} & \texttt{(B08 - 0.66 * B11) / (B08 + 0.66 * B11)} \\
+\texttt{aod\_NDVI\_minus\_AFRI} & \texttt{((B08 - B04) / (B08 + B04) - (B08 - 0.66 * B11) / (B08 + 0.66 * B11))} \\
+\texttt{aod\_dust\_B04\_minus\_B02} & \texttt{B04 - B02} \\
+\texttt{aod\_dust\_nd\_B04\_B11} & \texttt{(B04 - B11) / (B04 + B11)} \\
+\texttt{aod\_B02\_airmass} & \texttt{B02 * m} \\
+\texttt{aod\_log\_B02\_airmass} & \texttt{ln(B02) * m} \\
+\texttt{aod\_angstrom\_alpha} & slope of $\ln\rho$ against $\ln\lambda$ over B01--B04 (443, 490, 560, 665~nm), least-squares fit per pixel \\
+\hline
+\end{tabular}
+\end{table}
+\end{document}

@@ -1,0 +1,80 @@
+{
+ "stratified": {
+  "n_features": 3700,
+  "top300_by_category": {
+   "band_ratios": 155,
+   "veg_idx2": 32,
+   "band_stats": 29,
+   "advanced": 21,
+   "veg_idx1": 19,
+   "rededge": 16,
+   "aod_physics": 14,
+   "bloom": 13,
+   "glcm_b02": 1
+  },
+  "meta_in_top300": [],
+  "meta_rank": {
+   "Day_of_Year": 2617,
+   "Site_Latitude(Degrees)": 1118,
+   "Site_Longitude(Degrees)": 867,
+   "Site_Elevation(m)": 1161,
+   "Solar_Zenith_Angle(Degrees)": 3370,
+   "Solar_Azimuth_Angle(Degrees)": 2220,
+   "Airmass": 3369,
+   "Year": 3678,
+   "Month": 3675
+  }
+ },
+ "holdout_time": {
+  "n_features": 3700,
+  "top300_by_category": {
+   "band_ratios": 161,
+   "band_stats": 31,
+   "veg_idx2": 24,
+   "rededge": 23,
+   "veg_idx1": 18,
+   "advanced": 16,
+   "aod_physics": 14,
+   "bloom": 12,
+   "glcm_b02": 1
+  },
+  "meta_in_top300": [],
+  "meta_rank": {
+   "Day_of_Year": 2546,
+   "Site_Latitude(Degrees)": 1002,
+   "Site_Longitude(Degrees)": 856,
+   "Site_Elevation(m)": 1140,
+   "Solar_Zenith_Angle(Degrees)": 3294,
+   "Solar_Azimuth_Angle(Degrees)": 2373,
+   "Airmass": 3293,
+   "Year": 3689,
+   "Month": 3678
+  }
+ },
+ "loso_Shagaya_Park": {
+  "n_features": 3700,
+  "top300_by_category": {
+   "band_ratios": 156,
+   "band_stats": 35,
+   "veg_idx2": 28,
+   "rededge": 19,
+   "advanced": 17,
+   "aod_physics": 15,
+   "bloom": 15,
+   "veg_idx1": 14,
+   "glcm_b02": 1
+  },
+  "meta_in_top300": [],
+  "meta_rank": {
+   "Day_of_Year": 2791,
+   "Site_Latitude(Degrees)": 1090,
+   "Site_Longitude(Degrees)": 975,
+   "Site_Elevation(m)": 1154,
+   "Solar_Zenith_Angle(Degrees)": 3321,
+   "Solar_Azimuth_Angle(Degrees)": 2511,
+   "Airmass": 3319,
+   "Year": 3684,
+   "Month": 3680
+  }
+ }
+}

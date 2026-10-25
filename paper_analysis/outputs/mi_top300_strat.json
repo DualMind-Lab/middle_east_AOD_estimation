@@ -1,0 +1,28 @@
+{
+ "stratified": {
+  "n_features": 3700,
+  "top300_by_category": {
+   "band_ratios": 155,
+   "veg_idx2": 32,
+   "band_stats": 29,
+   "advanced": 21,
+   "veg_idx1": 19,
+   "rededge": 16,
+   "aod_physics": 14,
+   "bloom": 13,
+   "glcm_b02": 1
+  },
+  "meta_in_top300": [],
+  "meta_rank": {
+   "Day_of_Year": 2617,
+   "Site_Latitude(Degrees)": 1118,
+   "Site_Longitude(Degrees)": 867,
+   "Site_Elevation(m)": 1161,
+   "Solar_Zenith_Angle(Degrees)": 3370,
+   "Solar_Azimuth_Angle(Degrees)": 2220,
+   "Airmass": 3369,
+   "Year": 3678,
+   "Month": 3675
+  }
+ }
+}

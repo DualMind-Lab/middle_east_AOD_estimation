@@ -26,13 +26,15 @@ Regional-Scale-AOD-Estimation/
 ├── Data_Collection/         ← AERONET + Sentinel-2 acquisition pipeline (scripts only; see note below)
 ├── feature_engineering/     ← Train/val/LOSO splitting, feature extraction, feature analysis
 ├── modeling/                ← Model training, evaluation, LOSO cross-validation, results
+├── paper_analysis/          ← Statistics, figures, and Supporting Information of the paper (scripts + small outputs)
 └── requirements.txt
 ```
 
 Each directory has its own `README.md` with full pipeline documentation:
 [`Data_Collection/README.md`](Data_Collection/README.md) ·
 [`feature_engineering/README.md`](feature_engineering/README.md) ·
-[`modeling/README.md`](modeling/README.md)
+[`modeling/README.md`](modeling/README.md) ·
+[`paper_analysis/README.md`](paper_analysis/README.md)
 
 ## Data Availability
 
@@ -41,7 +43,7 @@ and several exceed its 100 MB per-file limit):
 
 | Excluded | Size | How to get it |
 |---|---|---|
-| Raw Sentinel-2 triplets, merged 13-band images, `dataset.csv` | tens of GB | Published on [Hugging Face](https://huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset/tree/main) by **1 August 2026** |
+| Raw Sentinel-2 triplets, merged 13-band images, `dataset.csv` | tens of GB | Available on [Hugging Face](https://huggingface.co/datasets/BaraaLazkani/Middle_East_AOD_Dataset) |
 | `feature_engineering/features/` (extracted feature CSVs, transformers) | ~8.5 GB | Regenerate locally by running the `feature_engineering/src/` notebooks against `dataset.csv` |
 | `modeling/models/` (trained model weights) | several GB | Regenerate locally by running `modeling/src/01_train.ipynb` |
 
@@ -66,6 +68,7 @@ Execution order:
 1. `Data_Collection/src/` — AERONET filtering → Sentinel-2 download → merge → `dataset.csv` (see its README for the full 8-step pipeline)
 2. `feature_engineering/src/01_split.ipynb` → `02_features.ipynb` / `02b_features_loso.ipynb` → `03`–`06` analysis notebooks
 3. `modeling/src/01_train.ipynb` → `02_evaluate.ipynb` → `03_loso.ipynb` → `04_evaluate_loso.ipynb`
+4. `paper_analysis/` — cluster-bootstrap statistics, figures, and Supporting Information tables used in the paper (see its README for the order)
 
 ## Authors
 
